@@ -1,0 +1,25 @@
+.cursor_pointer{
+    cursor: pointer !important;
+}
+
+.ant-table-column-title, thead .ant-table-cell{
+    color: #323130 !important;
+    font-size: 12px !important;
+}
+.ant-table-body{
+    min-height: 440px !important;
+}
+.ant-pagination-item-active{
+    background-color: #003b71 !important;
+    border-color: #003b71 !important;
+}
+.ant-pagination-item-active a{
+    color: #fff !important;
+}
+
+.primary-btn{
+    background-color: #003b71 !important;
+    border-color: #003b71 !important;
+    color: #fff !important;
+    font-weight: 500 !important;
+}

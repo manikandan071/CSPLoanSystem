@@ -1,0 +1,124 @@
+.folderTree {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.treeItem {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  padding: 4px 6px;
+  // border-radius: 4px;
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid #d1e0ef78;
+  background-color: #fff;
+  &:hover {
+    background-color: #b4cde61f;
+  }
+}
+
+.toggleIcon {
+  margin-right: 4px;
+  font-size: 0.9rem;
+  color: #6b7280;
+  width: 12px;
+  text-align: center;
+}
+
+.togglePlaceholder {
+  width: 12px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.folderIcon {
+  margin-right: 5px;
+  font-size: 14px;
+  color: #c5cde4 !important;
+}
+
+.itemName {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  // font-size: 14px;
+}
+.sponsorName {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+
+// ---- Level Colors & Indentation ----
+.level0 {
+  font-weight: 600;
+  color: #2d3e50;
+}
+
+.level1 {
+  color: #2d3e50;
+}
+
+.level2 {
+  color: #2d3e50;
+}
+
+.level3 {
+  color: #2d3e50;
+}
+
+// ---- File Styling ----
+.file {
+  color: #6b7b8c;
+
+  .folderIcon {
+    color: #6b7b8c;
+  }
+}
+
+// ---- Folder Styling ----
+.folder {
+  .pi-folder {
+    color: #eab308; // yellow closed
+  }
+
+  .pi-folder-open {
+    color: #d97706; // darker yellow open
+  }
+}
+
+.children {
+  margin-top: 2px;
+}
+
+.termChip {
+  background-color: #bcbcbc7d;
+  color: #1a364c;
+  border-radius: 5px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  &:hover {
+    background-color: #bcbcbccc;
+  }
+}
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.labeltext {
+  display: flex;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #7c7a8a;
+  font-weight: 600;
+}

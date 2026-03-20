@@ -1,0 +1,142 @@
+.loandashboard_wrapper {
+  padding: 0px 20px 20px 20px;
+}
+.loandashboard_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.button_group {
+  display: flex;
+  gap: 10px;
+}
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  padding: 15px 0px;
+}
+.Title_Section {
+  display: flex;
+  justify-content: space-between;
+  .Action_icon {
+    padding: 3px;
+    border-radius: 5px;
+  }
+  .Action_icon:hover {
+    background-color: #edebe9;
+    cursor: pointer;
+  }
+}
+
+.Title_Section .ellipsis_icon {
+  visibility: hidden;
+}
+
+.Title_Section .ellipsis_active {
+  visibility: visible !important;
+}
+
+// Show ellipsis when the entire ROW is hovered
+:global(.ant-table-row:hover) .Title_Section .ellipsis_icon {
+  visibility: visible;
+}
+
+:global(.ant-dropdown .ant-dropdown-menu) {
+  padding: 4px 0;
+  min-width: 220px;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+  .ant-dropdown-menu-item {
+    padding: 8px 16px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #323130;
+
+    .anticon {
+      color: #0a7a6e; // SharePoint teal icon color
+      font-size: 16px;
+    }
+
+    &:hover {
+      background-color: #f3f2f1;
+    }
+
+    &.ant-dropdown-menu-item-danger {
+      color: #d13438;
+      .anticon {
+        color: #d13438;
+      }
+    }
+
+    &.ant-dropdown-menu-item-disabled {
+      color: #a19f9d;
+      .anticon {
+        color: #a19f9d;
+      }
+    }
+  }
+}
+
+.active_row {
+  td {
+    background-color: #f3f2f1 !important; // SharePoint-style selected row color
+  }
+}
+
+.loannumber {
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.sponsor_name {
+  border: 1px solid #eacba7;
+  border-radius: 50px;
+  font-size: 11px;
+  display: inline-block;
+  padding: 0px 10px;
+  color: #222222;
+  background-color: #49ac5126;
+  font-weight: 500;
+}
+.created_by {
+  color: #222222;
+  font-size: 13px;
+  display: block;
+  width: 75%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  // font-weight: 500;
+}
+.underwriting_link {
+  font-size: 13px;
+  color: #003b71;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  .termChip {
+    background-color: #bcbcbc7d;
+    color: #1a364c;
+    border-radius: 5px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 500;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    &:hover {
+      background-color: #bcbcbccc;
+    }
+  }
+}

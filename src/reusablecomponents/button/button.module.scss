@@ -1,0 +1,98 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+  white-space: nowrap;
+  font-family: inherit;
+
+  &_icon {
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+  }
+
+  // ── Primary ──────────────────────────────────
+  &_primary {
+    background-color: #49ac51;
+    color: #ffffff;
+    border-color: #49ac51;
+
+    &:hover:not(:disabled) {
+      background-color: #3d9645;
+      border-color: #3d9645;
+      box-shadow: 0 2px 8px rgba(73, 172, 81, 0.35);
+    }
+
+    &:active:not(:disabled) {
+      background-color: #337d39;
+      border-color: #337d39;
+    }
+  }
+
+  // ── Secondary ────────────────────────────────
+  &_secondary {
+    background-color: #ffffff;
+    color: #49ac51;
+    border-color: #49ac51;
+
+    &:hover:not(:disabled) {
+      background-color: #f0faf1;
+      box-shadow: 0 2px 8px rgba(73, 172, 81, 0.2);
+    }
+
+    &:active:not(:disabled) {
+      background-color: #e0f5e2;
+    }
+  }
+
+  // ── Submit ───────────────────────────────────
+  &_submit {
+    background-color: #0a2e5c;
+    color: #ffffff;
+    border-color: #0a2e5c;
+
+    &:hover:not(:disabled) {
+      background-color: #0d3a73;
+      border-color: #0d3a73;
+      box-shadow: 0 2px 8px rgba(10, 46, 92, 0.35);
+    }
+
+    &:active:not(:disabled) {
+      background-color: #07203f;
+      border-color: #07203f;
+    }
+  }
+
+  // ── Cancel ───────────────────────────────────
+  &_cancel {
+    background-color: #ffffff;
+    color: #6b6b6b;
+    border-color: #d9d9d9;
+
+    &:hover:not(:disabled) {
+      background-color: #f5f5f5;
+      border-color: #bfbfbf;
+      color: #333333;
+    }
+
+    &:active:not(:disabled) {
+      background-color: #ebebeb;
+    }
+  }
+
+  // ── Disabled ─────────────────────────────────
+  &_disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none !important;
+  }
+}
