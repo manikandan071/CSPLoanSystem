@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { sp } from "@pnp/sp";
 import { setSponsorDetails } from "../../redux/features/LoanDeatilsSlice";
 
@@ -16,10 +19,8 @@ export const getSponsorsDetails = async (setDispatch: any) => {
           };
         });
       });
-    console.log("All Sponsors:", getSponsors);
     setDispatch(setSponsorDetails(getSponsors));
   } catch (err) {
-    console.error("❌ Error fetching sponsors:", err);
-    return [];
+    console.log("❌ Error fetching sponsors:", err);
   }
 };

@@ -1,0 +1,184 @@
+@use "../../../../assets/scss/variables.scss" as *;
+
+.modal_body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal_footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 20px;
+  border-top: 1px solid $border;
+  background: $surface-2;
+}
+
+// ─── Form ─────────────────────────────────────────────────────────────────────
+
+.field_group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field_label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.text_input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid $border;
+  border-radius: $radius-sm;
+  font-size: 13px;
+  color: $text-primary;
+  background: $surface;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+  box-sizing: border-box;
+  outline: none;
+
+  &::placeholder {
+    color: $text-tertiary;
+  }
+
+  &:focus {
+    border-color: $green;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+  }
+}
+
+.path_preview {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.path_preview_label {
+  font-size: 11px;
+  color: $text-tertiary;
+}
+
+.path_preview code {
+  font-size: 12px;
+  background: $surface-2;
+  border: 1px solid $border;
+  border-radius: 4px;
+  padding: 5px 8px;
+  color: $indigo;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  word-break: break-all;
+}
+
+// ─── Buttons ──────────────────────────────────────────────────────────────────
+
+.btn_cancel {
+  padding: 8px 16px;
+  border: 1.5px solid $border;
+  border-radius: $radius-sm;
+  background: $surface;
+  color: $text-secondary;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s;
+
+  &:hover {
+    border-color: $border-strong;
+    color: $text-primary;
+    background: $surface-3;
+  }
+}
+
+.btn_submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border: none;
+  border-radius: $radius-sm;
+  background: $green;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+
+  &:hover:not(:disabled) {
+    filter: brightness(0.9);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: none;
+    transform: none;
+  }
+}
+
+// ─── States ───────────────────────────────────────────────────────────────────
+
+.success_state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 48px 32px;
+  text-align: center;
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: $text-secondary;
+    strong {
+      color: $text-primary;
+    }
+  }
+}
+
+.success_icon {
+  color: $green;
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  @keyframes popIn {
+    from {
+      transform: scale(0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}
+
+.spin {
+  animation: spin 0.8s linear infinite;
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

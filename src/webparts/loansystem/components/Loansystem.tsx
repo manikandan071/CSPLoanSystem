@@ -1,14 +1,14 @@
 import * as React from "react";
-// import styles from "./Loansystem.module.scss";
 import type { ILoansystemProps } from "./ILoansystemProps";
 import { sp } from "@pnp/sp/presets/all";
 import { graph } from "@pnp/graph/presets/all";
 import { Provider } from "react-redux";
-// import DocumentExchange from "./DocumentExchange/DocumentExchange";
-import "../assets/css/style.css";
-import "../assets/css/variables.css";
 import { store } from "../../../redux/store/Store";
 import MainComponent from "./MainComponent";
+import "../assets/css/style.css";
+import "../assets/css/variables.css";
+import "../assets/css/common.css";
+import "../assets/css/font.css";
 import "antd/dist/antd.css";
 // import { DocumentNotificationComponent } from "./SentMail/DocumentNotificationComponent";
 
@@ -36,10 +36,6 @@ export default class Loansystem extends React.Component<ILoansystemProps, {}> {
     return (
       <Provider store={store}>
         <div>
-          {/* <DocumentExchange
-            context={this.props.context}
-            libraryName="exchange"
-          /> */}
           {/* <DocumentNotificationComponent
           context={this.props.context}
           approvers={approvers}

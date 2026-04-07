@@ -1,4 +1,5 @@
-// components/DocumentNotificationComponent.tsx
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import {
   PrimaryButton,
@@ -41,7 +42,7 @@ export const DocumentNotificationComponent: React.FC<
         document.name,
         document.url,
         document.submittedBy,
-        new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString() // 7 days from now
+        new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString(), // 7 days from now
       );
 
       const success = await sendEmail(
@@ -51,7 +52,7 @@ export const DocumentNotificationComponent: React.FC<
           htmlBody: emailBody,
           saveToSentItems: true,
         },
-        context
+        context,
       );
 
       if (success) {
@@ -87,7 +88,7 @@ export const DocumentNotificationComponent: React.FC<
         status,
         "System", // or current user
         comments,
-        document.url
+        document.url,
       );
 
       // Send to relevant stakeholders based on status
@@ -97,7 +98,7 @@ export const DocumentNotificationComponent: React.FC<
           subject: `Document Status Update: ${document.name} - ${status}`,
           htmlBody: emailBody,
         },
-        context
+        context,
       );
 
       if (success) {

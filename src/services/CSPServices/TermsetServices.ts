@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { sp } from "@pnp/sp";
 import {
   setTermMap,
@@ -114,8 +117,6 @@ export const getAllCspLoanTerms = async (setDispatch: any) => {
       });
     });
     setDispatch(setTermMap(flatMap));
-    //   setTermMap(flatMap);
-    console.log("✅ Term map:", flatMap);
 
     const filteredStructure: any = {};
     Object.keys(fullStructure).forEach((setName) => {

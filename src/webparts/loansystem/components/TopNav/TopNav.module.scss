@@ -1,45 +1,200 @@
+// ── Variables ─────────────────────────────────────────────
+$primary: #003b71;
+$primary-light: #e6f0fa;
+$primary-mid: #0a5298;
+$accent: #49ac51;
+$text-muted: #6b7280;
+$border: #e5e7eb;
+$white: #ffffff;
+
+// ── Keyframes ─────────────────────────────────────────────
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes navItemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes indicatorSlide {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes logoPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(73, 172, 81, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(73, 172, 81, 0);
+  }
+}
+
+// ── Wrapper ───────────────────────────────────────────────
 .top_nav_wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  // background-color: #f8f9fa;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 0 24px;
+  height: 56px;
+  background: $white;
+  border-bottom: 1px solid $border;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  animation: slideInDown 0.35s ease both;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
+
+// ── Logo ──────────────────────────────────────────────────
+.logo_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo_badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, $primary 0%, $primary-mid 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: logoPulse 3s ease-in-out infinite;
+
+  span {
+    color: $white;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+}
+
 .logo {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-  margin: 0px;
+  font-size: 17px;
+  font-weight: 700;
+  color: $primary;
+  margin: 0;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
+
+// ── Nav List ──────────────────────────────────────────────
 .nav_options_wrapper {
   display: flex;
-  gap: 15px;
-  margin: 0px;
-}
-.active_nav_option {
-  font-size: 14px;
-  color: #fff;
-  cursor: pointer;
-  transition: color 0.3s;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
   list-style: none;
-  padding: 3px 15px 6px 15px;
-  background: #003b71;
-  border-radius: 4px;
-  font-weight: 500;
 }
-.nav_option {
-  font-size: 14px;
-  color: #555;
+
+// ── Nav Item ──────────────────────────────────────────────
+.nav_item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: color 0.3s;
-  list-style: none;
-  padding: 3px 15px 6px 15px;
-  background: #fff;
-  color: #003b71;
-  border-radius: 4px;
+  font-size: 13.5px;
   font-weight: 500;
-  &:hover {
-    background: #e6f0fa;
+  color: $text-muted;
+  border: 1px solid transparent;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  animation: navItemFadeIn 0.35s ease both;
+  user-select: none;
+
+  // Icon
+  .nav_icon {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    transition:
+      transform 0.2s ease,
+      color 0.2s ease;
+    transform: scale(0.9);
   }
+
+  // Label
+  .nav_label {
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  // Hover state
+  &:hover:not(.active) {
+    background: $primary-light;
+    color: $primary;
+    border-color: darken($primary-light, 6%);
+
+    .nav_icon {
+      transform: translateY(-1px);
+      color: $primary;
+    }
+  }
+
+  // Active state
+  &.active {
+    background: $primary;
+    color: $white;
+    border-color: $primary;
+    box-shadow: 0 2px 8px rgba(0, 59, 113, 0.28);
+
+    .nav_icon {
+      color: $white;
+      transform: scale(1);
+    }
+
+    .nav_label {
+      color: $white;
+    }
+  }
+
+  // Click ripple effect
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+// ── Active bottom indicator ────────────────────────────────
+.active_indicator {
+  display: none;
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(1);
+  width: 20px;
+  height: 3px;
+  background: $accent;
+  border-radius: 2px 2px 0 0;
+  animation: indicatorSlide 0.25s ease both;
+  transform-origin: center;
 }

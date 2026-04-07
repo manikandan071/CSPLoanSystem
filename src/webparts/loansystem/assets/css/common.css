@@ -23,3 +23,26 @@
     color: #fff !important;
     font-weight: 500 !important;
 }
+
+.ant-select-single.ant-select-sm:not(.ant-select-customize-input) .ant-select-selector{
+    height: 30px !important;
+    align-items: center !important;
+    border-radius: 7px !important;
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    height: 30px !important;
+}
+
+.ant-select-selection-item{
+    font-size: 13px !important;
+}
+
+.ant-table-filter-trigger{
+    padding: 0px 8px !important;
+}
+
+.ant-table-filter-trigger:hover{
+    color: #003b71 !important;
+}
+

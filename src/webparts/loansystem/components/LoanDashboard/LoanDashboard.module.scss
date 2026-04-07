@@ -1,51 +1,198 @@
+@use "../../assets/scss/variables.scss" as *;
+
+// ─── Design tokens ────────────────────────────────────────────────────────────
+$brand-primary: #0a2e5c;
+$brand-accent: #49ac51;
+$brand-link: #003b71;
+$neutral-dark: #222222;
+$neutral-mid: #a7a7a7;
+$neutral-light: #f3f2f1;
+$neutral-border: #edebe9;
+$danger: #d13438;
+$sponsor-border: #eacba7;
+$sponsor-bg: rgba(#49ac51, 0.15);
+$tag-bg: rgba(#bcbcbc, 0.49);
+$tag-bg-hover: rgba(#bcbcbc, 0.8);
+$icon-teal: #0a7a6e;
+$shadow-dropdown: 0 4px 16px rgba(0, 0, 0, 0.15);
+$radius-sm: 4px;
+$radius-md: 5px;
+$radius-pill: 50px;
+$font-sm: 13px;
+$font-xs: 11px;
+$row-height: 55px;
+
+// ─── Wrapper ──────────────────────────────────────────────────────────────────
 .loandashboard_wrapper {
-  padding: 0px 20px 20px 20px;
+  padding: 0 20px 20px;
 }
+
+// ─── Header ───────────────────────────────────────────────────────────────────
 .loandashboard_header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .button_group {
   display: flex;
   gap: 10px;
 }
+
+// ─── Breadcrumbs ──────────────────────────────────────────────────────────────
 .breadcrumbs {
   display: flex;
   align-items: center;
-  padding: 15px 0px;
+  padding: 20px 0;
+  flex-wrap: wrap;
+  gap: 2px;
 }
-.Title_Section {
+
+.breadcrumb_segment {
   display: flex;
-  justify-content: space-between;
-  .Action_icon {
-    padding: 3px;
-    border-radius: 5px;
+  align-items: center;
+  gap: 5px;
+  margin-left: 5px;
+}
+
+.breadcrumb_crumb {
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: $brand-primary !important;
   }
-  .Action_icon:hover {
-    background-color: #edebe9;
-    cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid $brand-accent;
+    border-radius: 2px;
   }
 }
 
+// ─── Table row & name cell ────────────────────────────────────────────────────
+.Title_Section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .Action_icon {
+    padding: 3px;
+    border-radius: $radius-md;
+    transition: background-color 0.12s ease;
+
+    &:hover {
+      background-color: $neutral-border;
+      cursor: pointer;
+    }
+  }
+}
+
+// Ellipsis icon: hidden until row/cell is hovered or dropdown is open
 .Title_Section .ellipsis_icon {
   visibility: hidden;
+  transition: visibility 0s;
 }
 
 .Title_Section .ellipsis_active {
   visibility: visible !important;
 }
 
-// Show ellipsis when the entire ROW is hovered
 :global(.ant-table-row:hover) .Title_Section .ellipsis_icon {
   visibility: visible;
 }
 
+// Active / selected row
+.active_row {
+  td {
+    background-color: $neutral-light !important;
+  }
+}
+
+// ─── Cell renderers ───────────────────────────────────────────────────────────
+.loannumber {
+  font-size: $font-sm;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid $brand-accent;
+    border-radius: 2px;
+  }
+}
+
+.sponsor_name {
+  font-size: 12px;
+  font-weight: 600;
+  color: $text-primary;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 4px;
+  padding: 2px 7px;
+}
+
+.created_by {
+  color: $neutral-dark;
+  font-size: $font-sm;
+  display: block;
+  width: 75%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.underwriting_link {
+  font-size: $font-sm;
+  color: $brand-link;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.12s ease;
+
+  &:hover {
+    color: darken($brand-link, 15%);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $brand-accent;
+    border-radius: 2px;
+  }
+}
+
+// ─── Tags list & chips ────────────────────────────────────────────────────────
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.termChip {
+  background-color: $tag-bg;
+  color: #1a364c;
+  border-radius: $radius-md;
+  padding: 2px 8px;
+  font-size: $font-xs;
+  font-weight: 500;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  transition: background-color 0.12s ease;
+
+  &:hover {
+    background-color: $tag-bg-hover;
+  }
+}
+
+// ─── Dropdown override ────────────────────────────────────────────────────────
 :global(.ant-dropdown .ant-dropdown-menu) {
   padding: 4px 0;
   min-width: 220px;
-  border-radius: 4px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  border-radius: $radius-sm;
+  box-shadow: $shadow-dropdown;
 
   .ant-dropdown-menu-item {
     padding: 8px 16px;
@@ -56,18 +203,18 @@
     color: #323130;
 
     .anticon {
-      color: #0a7a6e; // SharePoint teal icon color
+      color: $icon-teal;
       font-size: 16px;
     }
 
     &:hover {
-      background-color: #f3f2f1;
+      background-color: $neutral-light;
     }
 
     &.ant-dropdown-menu-item-danger {
-      color: #d13438;
+      color: $danger;
       .anticon {
-        color: #d13438;
+        color: $danger;
       }
     }
 
@@ -76,67 +223,6 @@
       .anticon {
         color: #a19f9d;
       }
-    }
-  }
-}
-
-.active_row {
-  td {
-    background-color: #f3f2f1 !important; // SharePoint-style selected row color
-  }
-}
-
-.loannumber {
-  font-size: 13px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-}
-.sponsor_name {
-  border: 1px solid #eacba7;
-  border-radius: 50px;
-  font-size: 11px;
-  display: inline-block;
-  padding: 0px 10px;
-  color: #222222;
-  background-color: #49ac5126;
-  font-weight: 500;
-}
-.created_by {
-  color: #222222;
-  font-size: 13px;
-  display: block;
-  width: 75%;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  // font-weight: 500;
-}
-.underwriting_link {
-  font-size: 13px;
-  color: #003b71;
-  font-weight: 500;
-  cursor: pointer;
-  text-decoration: underline;
-}
-.tagsList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  .termChip {
-    background-color: #bcbcbc7d;
-    color: #1a364c;
-    border-radius: 5px;
-    padding: 2px 8px;
-    font-size: 11px;
-    font-weight: 500;
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    &:hover {
-      background-color: #bcbcbccc;
     }
   }
 }

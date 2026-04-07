@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+
 // hooks/useEmailService.ts
 import { useCallback } from "react";
 import { MSGraphClient } from "@microsoft/sp-http";
@@ -63,7 +66,7 @@ export const useEmailService = () => {
         return false;
       }
     },
-    []
+    [],
   );
 
   return {

@@ -1,0 +1,538 @@
+$primary: #003b71;
+$primary-light: #e8f4ff;
+$primary-mid: #0a5298;
+$accent: #49ac51;
+$accent-light: #f0fdf4;
+$error: #ef4444;
+$warning-bg: #fffbeb;
+$warning-border: #fde68a;
+$info-bg: #eff6ff;
+$info-border: #bfdbfe;
+$info-color: #1d4ed8;
+$white: #ffffff;
+$border: #e2e8f0;
+$bg: #f8fafc;
+$text: #1e293b;
+$muted: #64748b;
+
+// ── Keyframes ──────────────────────────────────────────────
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulse-border {
+  0%,
+  100% {
+    border-color: $primary;
+    box-shadow: 0 0 0 0 rgba(0, 59, 113, 0.3);
+  }
+  50% {
+    border-color: #1e6fbf;
+    box-shadow: 0 0 0 6px rgba(0, 59, 113, 0);
+  }
+}
+
+// ── Wrapper ────────────────────────────────────────────────
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px 0px 24px 24px;
+  // background: $bg;
+  min-height: 100%;
+  animation: fadeSlideIn 0.3s ease both;
+}
+
+.bulk_upload_section {
+  height: 70vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-right: 24px;
+}
+
+// ── Section Label ──────────────────────────────────────────
+.section_label {
+  font-size: 13px;
+  font-weight: 700;
+  color: $primary;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.file_count {
+  font-size: 11px;
+  font-weight: 500;
+  color: $muted;
+  background: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: auto;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+// ── Drop Zone ──────────────────────────────────────────────
+.drop_zone {
+  border: 2px dashed #b0c4d8;
+  border-radius: 12px;
+  background: $white;
+  padding: 36px 24px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
+  text-align: center;
+
+  &:hover {
+    border-color: $primary;
+    background: $primary-light;
+  }
+}
+
+.dragging {
+  border-color: $primary !important;
+  background: $primary-light !important;
+  animation: pulse-border 1s ease-in-out infinite;
+}
+
+.drop_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.drop_icon_wrap {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, $primary, $primary-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+  box-shadow: 0 4px 16px rgba(0, 59, 113, 0.25);
+  color: #fff;
+}
+
+.drop_icon {
+  font-size: 28px;
+  color: $white;
+}
+.bounce {
+  animation: bounce 0.6s ease infinite;
+}
+
+.drop_title {
+  font-size: 15px;
+  font-weight: 700;
+  color: $text;
+  margin: 0;
+}
+
+.drop_sub {
+  font-size: 13px;
+  color: $muted;
+  margin: 0;
+}
+
+.drop_hint {
+  font-size: 11.5px;
+  color: #94a3b8;
+  margin: 4px 0 0;
+
+  code {
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: $primary;
+  }
+}
+
+// ── File Cards Grid ────────────────────────────────────────
+.files_grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ✅ Fix 1: overflow visible so FolderTreeSelect dropdown is not clipped
+.file_card {
+  background: $white;
+  border: 1.5px solid $border;
+  border-radius: 12px;
+  overflow: visible; // ← was 'hidden', caused dropdown to be hidden behind card
+  animation: cardIn 0.25s ease both;
+  transition:
+    box-shadow 0.2s,
+    border-color 0.2s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
+    border-color: darken($border, 8%);
+  }
+}
+
+// ── Card Header ────────────────────────────────────────────
+.file_card_header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, #d0deb6, #e8edf3);
+  border-bottom: 1px solid $border;
+  border-radius: 12px 12px 0 0; // top corners rounded, matches card
+}
+
+// ✅ Fix 3: improved file icon with background pill
+.file_icon_wrap {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: $white;
+  border: 1px solid $border;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.icon_pdf {
+  color: #dc2626;
+}
+.icon_file {
+  color: $muted;
+}
+
+.file_header_info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.file_name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: $text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file_size {
+  font-size: 10.5px;
+  color: $muted;
+  font-weight: 400;
+}
+
+.remove_btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #94a3b8;
+  font-size: 16px;
+  padding: 0;
+  display: flex;
+  flex-shrink: 0;
+  transition:
+    color 0.15s,
+    transform 0.15s;
+  &:hover {
+    color: $error;
+    transform: scale(1.15);
+  }
+}
+
+// ── Card Body ──────────────────────────────────────────────
+.file_card_body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+// ── Field ──────────────────────────────────────────────────
+.mini_field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+
+.field_label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: $muted;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// ── Upload Mode Buttons ────────────────────────────────────
+.mini_mode_row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+
+.mini_mode_btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 8px 4px 7px;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: $muted;
+  background: $bg;
+  border: 1.5px solid $border;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1.2;
+  text-align: center;
+
+  &:hover:not(.mini_mode_active) {
+    border-color: $primary;
+    color: $primary;
+    background: $primary-light;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 59, 113, 0.12);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+.mini_mode_active {
+  border-color: $primary !important;
+  background: $primary-light !important;
+  color: $primary !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 10px rgba(0, 59, 113, 0.18) !important;
+}
+
+.mini_mode_icon {
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mini_mode_check {
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  font-size: 9px;
+  color: $accent;
+  font-weight: 700;
+}
+
+// ── Info Banners ───────────────────────────────────────────
+
+// ✅ Fix 2: Sponsor & Multi Loan info banner
+.info_banner {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  background: $info-bg;
+  border: 1px solid $info-border;
+  border-radius: 7px;
+  font-size: 11.5px;
+  color: $info-color;
+  line-height: 1.4;
+
+  .anticon {
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+}
+
+.sponsor_info_banner {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 7px;
+  font-size: 11.5px;
+  color: #166534;
+  line-height: 1.4;
+
+  .anticon {
+    margin-top: 2px;
+    flex-shrink: 0;
+    color: $accent;
+  }
+}
+
+.hint {
+  font-size: 11px;
+  color: #a16207;
+  margin: 0;
+  padding: 6px 10px;
+  background: $warning-bg;
+  border-radius: 5px;
+  border: 1px solid $warning-border;
+}
+
+// ── All Loans Warning ──────────────────────────────────────
+.all_warning {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: $warning-bg;
+  border: 1px solid $warning-border;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: #a16207;
+}
+
+.warning_icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.warning_title {
+  margin: 0 0 2px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #92400e;
+}
+
+.warning_desc {
+  margin: 0;
+  font-size: 11.5px;
+  color: #a16207;
+  line-height: 1.4;
+}
+
+// ── Auto-detected badge ────────────────────────────────────
+.auto_badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: $accent;
+  background: $accent-light;
+  padding: 1px 7px;
+  border-radius: 4px;
+  border: 1px solid #bbf7d0;
+  margin-left: auto;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+// ── Footer ─────────────────────────────────────────────────
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  // padding-top: 8px;
+  // border-top: 1px solid $border;
+  padding-right: 24px;
+}
+
+.cancel_btn {
+  padding: 9px 22px;
+  background: $white;
+  color: $muted;
+  border: 1.5px solid $border;
+  border-radius: 8px;
+  font-size: 13.5px;
+  // font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+
+  &:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+  }
+}
+
+.submit_btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 24px;
+  background: linear-gradient(135deg, $primary, $primary-mid);
+  color: $white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13.5px;
+  // font-weight: 700;
+  cursor: pointer;
+  transition:
+    opacity 0.2s,
+    transform 0.15s,
+    box-shadow 0.2s;
+  box-shadow: 0 2px 10px rgba(0, 59, 113, 0.3);
+
+  &:hover:not(.disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0, 59, 113, 0.4);
+  }
+
+  &:active:not(.disabled) {
+    transform: scale(0.98);
+  }
+}
+
+.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}

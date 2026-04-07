@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import * as React from "react";
 import styles from "./SponsorDashboard.module.scss";
 import { useSelector } from "react-redux";
@@ -7,55 +9,27 @@ import type { InputRef, TableColumnsType, TableColumnType } from "antd";
 import type { FilterDropdownProps } from "antd/es/table/interface";
 import { Button, Input, Space, Table, Tooltip } from "antd";
 import { MdModeEdit } from "react-icons/md";
+import { ILoanTree, ISponsor } from "../../../../interfaces/loandocument";
+import { RootState } from "../../../../interfaces/common";
 
-interface userDetails {
-  Id: number;
-  Title: string;
-  Email: string;
-}
-
-interface loanDetails {
-  name: string;
-  Path: string;
-  Id: number;
-  isFile: boolean;
-  SubFolders: loanDetails[];
-  Sponsor: string;
-  AssetManagement?: any[];
-  Servicing: any[];
-  Legal: any[];
-  CreatedBy: userDetails;
-  CreatedByTitle: string;
-  ModifiedBy: userDetails;
-  Created: string;
-  Modified: string;
-}
-
-interface DataType {
-  Id: React.Key;
-  Title: string;
-  Description: string;
-  Loans: loanDetails[];
-}
-
-type DataIndex = keyof DataType;
+type DataIndex = keyof ISponsor;
 
 interface ISponsorDashboardProps {}
 
 const SponsorDashboard: React.FC<ISponsorDashboardProps> = (props) => {
-  const loansDetails: any = useSelector(
-    (state: any) => state.LoanDetailsContext.loansDetails,
+  const loansDetails: ILoanTree[] = useSelector(
+    (state: RootState) => state.LoanDetailsContext.loansDetails,
   );
-  const sponsorDetails: any = useSelector(
-    (state: any) => state.LoanDetailsContext.sponsorDetails,
+  const sponsorDetails: ISponsor[] = useSelector(
+    (state: RootState) => state.LoanDetailsContext.sponsorDetails,
   );
   const tempSponsorDetails: any = useSelector(
-    (state: any) => state.LoanDetailsContext.tempSponsorDetails,
+    (state: RootState) => state.LoanDetailsContext.tempSponsorDetails,
   );
 
   const searchInput = useRef<InputRef>(null);
 
-  const [tableData, setTableData] = useState<DataType[]>([]);
+  const [tableData, setTableData] = useState<ISponsor[]>([]);
 
   const handleSearch = (
     selectedKeys: string[],
@@ -74,7 +48,7 @@ const SponsorDashboard: React.FC<ISponsorDashboardProps> = (props) => {
 
   const getColumnSearchProps = (
     dataIndex: DataIndex,
-  ): TableColumnType<DataType> => ({
+  ): TableColumnType<ISponsor> => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
@@ -141,7 +115,7 @@ const SponsorDashboard: React.FC<ISponsorDashboardProps> = (props) => {
     },
   });
 
-  const columns: TableColumnsType<DataType> = [
+  const columns: TableColumnsType<ISponsor> = [
     {
       title: "Title",
       dataIndex: "Title",
@@ -180,9 +154,7 @@ const SponsorDashboard: React.FC<ISponsorDashboardProps> = (props) => {
       // ...getColumnSearchProps("CreatedByTitle"),
       sorter: (a, b) => a?.Loans.length - b?.Loans.length,
       sortDirections: ["descend", "ascend"],
-      render: (loans: any[], record: DataType) => {
-        console.log(loans, record);
-
+      render: (loans: any[], record: ISponsor) => {
         return <span>{loans?.length || 0}</span>;
       },
     },
@@ -202,7 +174,6 @@ const SponsorDashboard: React.FC<ISponsorDashboardProps> = (props) => {
   ];
 
   useEffect(() => {
-    console.log("sponsorDetails", sponsorDetails);
     const loansBySponsor = loansDetails?.reduce((acc: any, loan: any) => {
       if (!acc[loan.Sponsor]) {
         acc[loan.Sponsor] = [];
@@ -214,14 +185,13 @@ const SponsorDashboard: React.FC<ISponsorDashboardProps> = (props) => {
       ...sponsor,
       Loans: loansBySponsor[sponsor.Title] || [],
     }));
-    console.log(result);
     setTableData(result);
   }, [loansDetails || sponsorDetails]);
 
   return (
     <div className={styles.sponsordashboard_wrapper}>
       <div className={styles.sponsordashboard_header}>
-        <div></div>
+        <div />
         <div>
           <Button className="primary-btn" icon={<PlusOutlined />}>
             Sponsor
@@ -229,7 +199,7 @@ const SponsorDashboard: React.FC<ISponsorDashboardProps> = (props) => {
         </div>
       </div>
       <>
-        <Table<DataType>
+        <Table<ISponsor>
           columns={columns}
           dataSource={tableData}
           scroll={{ y: 55 * 8 }}

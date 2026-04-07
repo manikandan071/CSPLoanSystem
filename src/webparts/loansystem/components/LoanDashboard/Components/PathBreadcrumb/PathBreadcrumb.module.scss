@@ -1,0 +1,40 @@
+@use "../../../../assets/scss/variables.scss" as *;
+
+.path_breadcrumb {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 12px;
+  background: $surface-2;
+  border: 1.5px solid $border;
+  border-radius: $radius-sm;
+}
+
+.path_label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: $text-tertiary;
+}
+
+.path_parts {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.path_part {
+  font-size: 12px;
+  font-weight: 600;
+  color: $text-primary;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 4px;
+  padding: 2px 7px;
+}
+
+.path_sep {
+  color: $text-tertiary;
+}

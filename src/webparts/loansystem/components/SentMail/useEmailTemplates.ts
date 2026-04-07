@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 // hooks/useEmailTemplates.ts
 import { useCallback } from "react";
 export const useEmailTemplates = () => {
@@ -6,7 +7,7 @@ export const useEmailTemplates = () => {
       documentName: string,
       documentUrl: string,
       submittedBy: string,
-      dueDate?: string
+      dueDate?: string,
     ): string => {
       return `
       <!DOCTYPE html>
@@ -71,7 +72,7 @@ export const useEmailTemplates = () => {
       </html>
     `;
     },
-    []
+    [],
   );
 
   const getDocumentStatusUpdateTemplate = useCallback(
@@ -80,7 +81,7 @@ export const useEmailTemplates = () => {
       status: string,
       updatedBy: string,
       comments?: string,
-      documentUrl?: string
+      documentUrl?: string,
     ): string => {
       const statusColors: { [key: string]: string } = {
         Approved: "#107c10",
@@ -148,7 +149,7 @@ export const useEmailTemplates = () => {
       </div>
     `;
     },
-    []
+    [],
   );
 
   return {

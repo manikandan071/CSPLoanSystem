@@ -1,0 +1,287 @@
+$primary: #003b71;
+$accent: #49ac51;
+$error: #ef4444;
+$warning: #f59e0b;
+$white: #ffffff;
+$border: #e2e8f0;
+$text: #1e293b;
+$muted: #64748b;
+
+@keyframes overlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes barPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: overlayIn 0.2s ease both;
+}
+
+.modal {
+  background: $white;
+  border-radius: 16px;
+  width: 520px;
+  max-width: 95vw;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+  animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid $border;
+
+  &_icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #f0f7ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 24px;
+  }
+
+  &_text {
+    h3 {
+      margin: 0 0 4px;
+      font-size: 16px;
+      font-weight: 700;
+      color: $text;
+    }
+    p {
+      margin: 0;
+      font-size: 13px;
+      color: $muted;
+      min-height: 18px;
+      transition: opacity 0.3s;
+    }
+  }
+}
+
+.icon_loading {
+  color: $primary;
+}
+.icon_success {
+  color: $accent;
+}
+.icon_partial {
+  color: $warning;
+}
+
+.overall_bar_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px 8px;
+}
+
+.overall_bar {
+  flex: 1;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.overall_bar_fill {
+  height: 100%;
+  background: linear-gradient(90deg, $primary, #1e6fbf);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+  animation: barPulse 1.5s ease-in-out infinite;
+  background-size: 200% auto;
+
+  &.fill_success {
+    background: linear-gradient(90deg, $accent, #2d8a36);
+    animation: none;
+  }
+}
+
+.percent {
+  font-size: 13px;
+  font-weight: 700;
+  color: $primary;
+  width: 38px;
+  text-align: right;
+}
+
+.file_list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 8px 16px 16px;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+}
+
+.file_row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  background: #f8fafc;
+  border: 1px solid transparent;
+  transition: border-color 0.2s;
+
+  &.status_pending {
+    border-color: #bfdbfe;
+    background: #eff6ff;
+  }
+  &.status_uploading {
+    border-color: #bfdbfe;
+    background: #eff6ff;
+  }
+  &.status_success {
+    border-color: #bbf7d0;
+    background: #f0fdf4;
+  }
+  &.status_error {
+    border-color: #fecaca;
+    background: #fff5f5;
+  }
+}
+
+.file_info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.file_name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: $text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+.file_meta {
+  font-size: 11px;
+  color: $muted;
+}
+
+.file_right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.mini_bar {
+  width: 80px;
+  height: 4px;
+  background: #dbeafe;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.mini_bar_fill {
+  height: 100%;
+  background: $primary;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.status_icon_success {
+  color: $accent;
+  font-size: 16px;
+}
+
+.error_msg {
+  font-size: 11px;
+  color: $error;
+  font-weight: 500;
+}
+
+.pending_dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #cbd5e1;
+}
+
+.footer {
+  padding: 16px 24px;
+  border-top: 1px solid $border;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close_btn {
+  padding: 9px 28px;
+  background: $accent;
+  color: $white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.15s;
+
+  &:hover {
+    background: #3d9645;
+    transform: translateY(-1px);
+  }
+  &:active {
+    transform: scale(0.97);
+  }
+}

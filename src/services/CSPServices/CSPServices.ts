@@ -1,26 +1,50 @@
-import { sp } from "@pnp/sp";
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   setloansDetails,
   setTempSponsorDetails,
 } from "../../redux/features/LoanDeatilsSlice";
-import * as dayjs from "dayjs";
 import { ILoanSPitem, ILoanTree } from "../../interfaces/loandocument";
+import {
+  formatDate,
+  getSourceUrlFromShortcut,
+  parseDDMMYYYY,
+} from "../../utils/CommonUtils";
+import { setCurrentUserDetails } from "../../redux/features/CommonSlice";
+import { sp } from "@pnp/sp/presets/all";
+import { LIBRARIES } from "../../constants/constants";
 
-const formatDate = (dateString: string) => {
-  if (dayjs(dateString).isValid() === false) {
-    console.log("dateString", dateString);
+export const getCurrentUserDetails = async (dispatch: any) => {
+  try {
+    console.log("Fetching current user...");
+
+    const currentUser = await sp.web.currentUser();
+
+    if (!currentUser) {
+      console.log("No current user found");
+      return;
+    }
+
+    const userDetails = {
+      Id: currentUser.Id,
+      Title: currentUser.Title,
+      Email: currentUser.Email,
+    };
+
+    dispatch(setCurrentUserDetails(userDetails));
+
+    console.log("✅ userDetails", userDetails);
+  } catch (err) {
+    console.error("❌ Error fetching current user details:", err);
   }
-  return dayjs(dateString).isValid()
-    ? dayjs(dateString).format("DD/MM/YYYY")
-    : "-";
 };
 
-const labelRename = (data: any[]) => {
-  const updated = data.map((item) => ({
+const labelRename = (data: any[]): any[] => {
+  if (!data?.length) return [];
+  return data.map((item) => ({
     ...item,
-    Label: item.Label.replace(/#/g, ""),
+    Label: item?.Label?.replace(/#/g, "") ?? "",
   }));
-  return updated;
 };
 
 const buildFullFolderTree = (
@@ -31,7 +55,7 @@ const buildFullFolderTree = (
 
   for (const item of items) {
     const parts = item.FileDirRef.split("/").filter(Boolean);
-    const exchangeIndex = parts.indexOf("exchange");
+    const exchangeIndex = parts.indexOf(LIBRARIES.LOAN_INTERNAL_NAME);
     if (exchangeIndex === -1) continue;
 
     const pathParts = parts.slice(exchangeIndex + 1);
@@ -61,9 +85,6 @@ const buildFullFolderTree = (
     }
 
     if (item.FSObjType === 1) {
-      if (item.FileLeafRef === "3000101") {
-        console.log(item.Created, item.Modified);
-      }
       if (!currentLevel[item.FileLeafRef]) {
         currentLevel[item.FileLeafRef] = {
           name: item.FileLeafRef,
@@ -71,9 +92,9 @@ const buildFullFolderTree = (
           Id: item.Id,
           SubFolders: {},
           Sponsor: item.Sponsor,
-          AssetManagement: labelRename(item.AssetManagement),
-          Servicing: labelRename(item.Servicing),
-          Legal: labelRename(item.Legal),
+          AssetManagement: labelRename(item.AssetManagement || []),
+          Servicing: labelRename(item.Servicing || []),
+          Legal: labelRename(item.Legal || []),
           CreatedBy: usersMap[item.AuthorId] || null,
           CreatedByTitle: usersMap[item.AuthorId]
             ? usersMap[item.AuthorId].Title
@@ -111,9 +132,9 @@ const buildFullFolderTree = (
         Id: item.Id,
         SubFolders: {},
         Sponsor: item.Sponsor,
-        AssetManagement: labelRename(item.AssetManagement),
-        Servicing: labelRename(item.Servicing),
-        Legal: labelRename(item.Legal),
+        AssetManagement: labelRename(item.AssetManagement || []),
+        Servicing: labelRename(item.Servicing || []),
+        Legal: labelRename(item.Legal || []),
         CreatedBy: usersMap[item.AuthorId] || null,
         CreatedByTitle: usersMap[item.AuthorId]
           ? usersMap[item.AuthorId].Title
@@ -170,6 +191,27 @@ export const getUniqueSponsorsFromTree = (tree: ILoanTree[]) => {
     .sort((a, b) => a.name.localeCompare(b.name));
 };
 
+export const resolveShortcutsInTree = async (
+  nodes: ILoanTree[],
+): Promise<ILoanTree[]> => {
+  return Promise.all(
+    nodes.map(async (node) => {
+      const sorcefileUrl =
+        node.isFile && node.name.endsWith(".url")
+          ? await getSourceUrlFromShortcut(node.Path)
+          : null;
+      if (sorcefileUrl) {
+        console.log(`Resolved shortcut ${node.Path} → ${sorcefileUrl}`);
+        node.Path = sorcefileUrl;
+      }
+      return {
+        ...node,
+        SubFolders: await resolveShortcutsInTree(node.SubFolders || []),
+      };
+    }),
+  );
+};
+
 export const getAllLibraryItems = async (
   libraryName: string,
   setDispatch: any,
@@ -182,7 +224,6 @@ export const getAllLibraryItems = async (
       });
       return userslist;
     });
-    console.log("All Users:", getAllUsers);
 
     const usersMap = getAllUsers.reduce((map: any, user: any) => {
       map[user.Id] = {
@@ -195,9 +236,7 @@ export const getAllLibraryItems = async (
 
     const list = sp.web.lists.getByTitle(libraryName);
     const pageSize = 5000;
-    let allItems: any[] = [];
-    let batchCount = 0;
-    console.log(batchCount);
+    const allItems: any[] = [];
 
     let paged = await list.items
       .select(
@@ -218,23 +257,24 @@ export const getAllLibraryItems = async (
       .getPaged();
 
     allItems.push(...paged.results);
-    batchCount++;
 
     while (paged.hasNext) {
       paged = await paged.getNext();
       allItems.push(...paged.results);
-      batchCount++;
     }
-    console.log("allItems", allItems);
     const treeLoanDocuments = buildFullFolderTree(allItems, usersMap);
-    const uniqueSponsors = getUniqueSponsorsFromTree(treeLoanDocuments);
-    console.log(uniqueSponsors);
+
+    // ✅ Sort only first level by Created (latest first)
+    treeLoanDocuments.sort((a: ILoanTree, b: ILoanTree) => {
+      return parseDDMMYYYY(b.Created) - parseDDMMYYYY(a.Created);
+    });
+    const resolvedTree = await resolveShortcutsInTree(treeLoanDocuments);
+    const uniqueSponsors = getUniqueSponsorsFromTree(resolvedTree);
     setDispatch(setTempSponsorDetails(uniqueSponsors));
     setDispatch(setloansDetails(treeLoanDocuments));
     setLoading(false);
-    //   return allItems;
   } catch (err) {
-    console.error("❌ Error fetching items:", err);
-    return [];
+    console.log("❌ Error fetching loan items:", err);
+    setLoading(false);
   }
 };
